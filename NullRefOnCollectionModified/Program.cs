@@ -1,19 +1,22 @@
-﻿var simplifiedKubeLogic = new SimplifiedKubeLogic();
+﻿using System.Text.Json;
 
-using var cts = new CancellationTokenSource();
+var simplifiedKubeLogic = new SimplifiedKubeLogic();
 
 await Parallel.ForEachAsync(
     Enumerable.Range(0, 100).AsParallel(),
-    cts.Token,
     async (i, token) =>
     {
         try
         {
             var services = await simplifiedKubeLogic.GetAsync();
 
-            if (services.Count > 1)
+            //var capturedServices = new List<SampleService>(services);
+
+            //var count = capturedServices.Count;
+            var count = services.Count;
+            if (count > 5)
             {
-                Console.WriteLine("Must be impossible!");
+                Console.WriteLine($"Must be impossible! Count: {count}");
             }
 
             foreach (var service in services)
@@ -21,7 +24,10 @@ await Parallel.ForEachAsync(
                 if (service is null)
                 {
                     Console.WriteLine("Service is null");
-                    cts.Cancel();
+                    //Console.WriteLine($"Origin: {JsonSerializer.Serialize(services)}");
+                    //Console.WriteLine($"Captured: {JsonSerializer.Serialize(capturedServices)}");
+                    //cts.Cancel();
+                    break;
                 }
             }
         }

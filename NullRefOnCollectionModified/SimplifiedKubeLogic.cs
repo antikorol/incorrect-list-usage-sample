@@ -15,7 +15,15 @@ public class SimplifiedKubeLogic
 
         _services.Clear();
 
-        _services.AddRange(new[] { new SampleService { Host = Interlocked.Increment(ref _index) } });
+        _services.AddRange(
+            new[]
+            {
+                new SampleService { Host = Interlocked.Increment(ref _index) },
+                new SampleService { Host = Interlocked.Increment(ref _index) },
+                new SampleService { Host = Interlocked.Increment(ref _index) },
+                new SampleService { Host = Interlocked.Increment(ref _index) },
+                new SampleService { Host = Interlocked.Increment(ref _index) },
+            });
 
         return _services;
     }
